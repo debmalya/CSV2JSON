@@ -42,8 +42,10 @@ public class CSV2JSONConverterTest {
 		CSV2JSONConverter converter = new CSV2JSONConverter();
 		BufferedReader reader = null;
 		try {
-			converter.convert("./src/test/resources/input/EPL.csv", "./src/test/resources/output/EPL.json");
-			reader = new BufferedReader(new FileReader("./src/test/resources/output/EPL.json"));
+			converter.convert("./src/test/resources/input/EPL.csv",
+					"./src/test/resources/output/EPL.json");
+			reader = new BufferedReader(new FileReader(
+					"./src/test/resources/output/EPL.json"));
 
 			String eachLine = null;
 			JsonParser parser = new JsonParser();
@@ -52,7 +54,8 @@ public class CSV2JSONConverterTest {
 				sb.append(eachLine);
 			}
 			try {
-				JsonArray parsedObject = (JsonArray) parser.parse(sb.toString());
+				JsonArray parsedObject = (JsonArray) parser
+						.parse(sb.toString());
 			} catch (JsonSyntaxException jse) {
 
 				jse.printStackTrace();
@@ -70,6 +73,100 @@ public class CSV2JSONConverterTest {
 					e.printStackTrace();
 				}
 			}
+		}
+	}
+
+	/**
+	 * Test method for
+	 * {@link csv2json.CSV2JSONConverter#convert(java.lang.String, java.lang.String)}
+	 * .
+	 */
+	@Test
+	public void testConvertWitEmptyLineInput() {
+		CSV2JSONConverter converter = new CSV2JSONConverter();
+		BufferedReader reader = null;
+		try {
+			converter.convert("./src/test/resources/input/EPL_More.csv",
+					"./src/test/resources/output/EPL_More.json");
+			reader = new BufferedReader(new FileReader(
+					"./src/test/resources/output/EPL.json"));
+
+			String eachLine = null;
+			JsonParser parser = new JsonParser();
+			StringBuilder sb = new StringBuilder();
+			while ((eachLine = reader.readLine()) != null) {
+				sb.append(eachLine);
+			}
+			try {
+				JsonArray parsedObject = (JsonArray) parser
+						.parse(sb.toString());
+				Assert.assertNotNull(parsedObject);
+			} catch (JsonSyntaxException jse) {
+
+				jse.printStackTrace();
+				Assert.assertFalse(jse.getMessage(), true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.assertFalse(e.getMessage(), true);
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	@Test
+	public void testConvertWitNonExistingFile() {
+		CSV2JSONConverter converter = new CSV2JSONConverter();
+
+		try {
+			converter.convert("./src/test/resources/input/Doest Not Exist.csv",
+					"./src/test/resources/output/Does not Exist.json");
+			Assert.assertFalse("Testing for non existing file", true);
+		} catch (Exception ignore) {
+
+		}
+	}
+
+	@Test
+	public void testConvertWithNull() {
+		CSV2JSONConverter converter = new CSV2JSONConverter();
+
+		try {
+			converter.convert(null, null);
+			Assert.assertFalse("Testing for non existing file", true);
+		} catch (Exception ignore) {
+
+		}
+	}
+
+	@Test
+	public void testMain() {
+		
+
+		try {
+			CSV2JSONConverter.main(new String[] { null, null });
+			Assert.assertFalse("Testing null arguments", true);
+		} catch (Exception ignore) {
+
+		}
+	}
+	
+	@Test
+	public void testMain1() {
+		
+
+		try {
+			CSV2JSONConverter.main(new String[] { null });
+			
+		} catch (Exception ignore) {
+
 		}
 	}
 

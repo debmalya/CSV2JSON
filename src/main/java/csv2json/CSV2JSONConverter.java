@@ -31,9 +31,13 @@ public class CSV2JSONConverter {
 
 	/**
 	 * @param args
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main(String[] args) throws Exception {
+		if (args.length == 2) {
+			CSV2JSONConverter converter = new CSV2JSONConverter();
+			converter.convert(args[0],args[1]);
+		}
 
 	}
 
@@ -44,22 +48,23 @@ public class CSV2JSONConverter {
 	 * @param csvInputFile
 	 *            - CSV input file.
 	 * @param jsonOutputFile
-	 *            - Output JSON file. Output directory must be existing and have write access to it.
+	 *            - Output JSON file. Output directory must be existing and have
+	 *            write access to it.
 	 * @throws Exception
 	 */
-	public void convert(final String csvInputFile, final String jsonOutputFile) throws Exception {
+	public void convert(final String csvInputFile, final String jsonOutputFile)
+			throws Exception {
 		if (csvInputFile != null && jsonOutputFile != null) {
 
 			PrintWriter writer = null;
 			JsonWriter jsonWriter = null;
-			int rowCount =1;
+			int rowCount = 1;
 
 			try (CSVReader reader = new CSVReader(new FileReader(csvInputFile))) {
 
-				
 				writer = new PrintWriter(jsonOutputFile);
-			    jsonWriter = new JsonWriter(writer);
-			    jsonWriter.setIndent("    ");
+				jsonWriter = new JsonWriter(writer);
+				jsonWriter.setIndent("    ");
 				jsonWriter.setHtmlSafe(true);
 				jsonWriter.setLenient(true);
 
@@ -69,9 +74,7 @@ public class CSV2JSONConverter {
 				// To store column header.
 				String[] columnHeader = null;
 
-				
-				
-				jsonWriter.beginArray();				
+				jsonWriter.beginArray();
 				while (eachLine != null) {
 
 					if (eachLine.length > 0) {
@@ -80,32 +83,31 @@ public class CSV2JSONConverter {
 							columnHeader = eachLine;
 							readFirstLine = true;
 						} else {
-							// Convert each row to JSON object.
-							jsonWriter.beginObject();
-							jsonWriter.name("row").value(String.valueOf(rowCount++));
+							if (eachLine.length == columnHeader.length) {
+								// Convert each row to JSON object.
+								jsonWriter.beginObject();
 
-							
-							for (int columnIndex = 0; columnIndex < eachLine.length; columnIndex++) {
-								// converting each column
-								jsonWriter.name(columnHeader[columnIndex]).value(eachLine[columnIndex]);
-								// end of converting each column
+								for (int columnIndex = 0; columnIndex < eachLine.length; columnIndex++) {
+									// converting each column
+									jsonWriter.name(columnHeader[columnIndex])
+											.value(eachLine[columnIndex]);
+									// end of converting each column
+								}
+
+								jsonWriter.endObject();
+								// End of converting each row.
 							}
-							
-							jsonWriter.endObject();
-							// End of converting each row.
-							
 
 						}
 					}
 					eachLine = reader.readNext();
 				}
 				jsonWriter.endArray();
-				
-				
+
 			} catch (FileNotFoundException e) {
 				throw new Exception(e.getMessage(), e);
 			} finally {
-				
+
 				if (jsonWriter != null) {
 					jsonWriter.flush();
 					jsonWriter.close();
@@ -114,12 +116,12 @@ public class CSV2JSONConverter {
 					writer.flush();
 					writer.close();
 				}
-				
-				
+
 			}
 
 		} else {
-			throw new IllegalArgumentException("CSV input file, JSON output file name cannot be null.");
+			throw new IllegalArgumentException(
+					"CSV input file, JSON output file name cannot be null.");
 		}
 	}
 
