@@ -21,7 +21,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonElement;
 
 
 
@@ -42,7 +42,10 @@ public class JSONUtilTest {
 		
 		jsonArr = util.convert(new String[] {"MO", "LOCAL", "NOROAMING", "On-Net"});
 		Assert.assertEquals(4, jsonArr.size());
-		Assert.assertEquals(new JsonPrimitive("MO"),(JsonPrimitive)jsonArr.get(0));
+		Assert.assertEquals("MO",jsonArr.get(0).getAsString());
+		JsonArray myArr = ( ( JsonElement ) jsonArr ).getAsJsonArray();
+		System.out.println(myArr);
+
 	}
 
 }

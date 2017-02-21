@@ -16,6 +16,7 @@
 package util;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonPrimitive;
 
 /**
  * @author debmalyajash
@@ -32,7 +33,7 @@ public class JSONUtil {
 		JsonArray jsonArr = new JsonArray();
 		if (arr != null) {
 			for (int i = 0; i < arr.length; i++) {
-				jsonArr.add(arr[i]);
+				jsonArr.add(new JsonPrimitive(arr[i]));
 			}
 		}
 		return jsonArr;
