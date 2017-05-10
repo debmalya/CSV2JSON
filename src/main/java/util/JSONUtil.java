@@ -38,4 +38,13 @@ public class JSONUtil {
 		}
 		return jsonArr;
 	}
+	
+	public boolean exists(final String value,JsonArray jsonArray) {
+		for (int i = 0; i < jsonArray.size(); i++) {
+			if (jsonArray.get(i).getAsString().equals(value)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

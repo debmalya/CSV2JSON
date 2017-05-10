@@ -45,6 +45,9 @@ public class JSONUtilTest {
 		Assert.assertEquals("MO",jsonArr.get(0).getAsString());
 		JsonArray myArr = ( ( JsonElement ) jsonArr ).getAsJsonArray();
 		System.out.println(myArr);
+		
+		Assert.assertTrue(util.exists("MO",myArr));
+		Assert.assertFalse(util.exists("MO1",myArr));
 
 	}
 
