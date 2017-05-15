@@ -46,15 +46,16 @@ public class CSVKeyValueWriter {
 				while (eachLine != null) {
 					if (!firstLine) {
 						String key = "\""+args[1]+"_" + eachLine[0] + "\":";
+						// First column is key and value is <second column>|<third column>|<fourth column>
 						String value = "\"" + eachLine[1] + "|" + eachLine[2] + "|" + eachLine[3]+"\",";
 						writer.println(key + value);
-						
+						count++;
 						
 					} else {
 						firstLine = false;
 					}
 					eachLine = reader.readNext();
-					count++;
+					
 					
 					
 				}
@@ -63,6 +64,8 @@ public class CSVKeyValueWriter {
 				writer.close();
 				System.out.println(outputFileName + " wrote " + count + " records.");
 			}
+		} else {
+			System.err.println("Usage : CSVKeyValueWriter <fileName> <PrefixForKeyValue>");
 		}
 
 	}
