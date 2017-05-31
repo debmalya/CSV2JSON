@@ -74,7 +74,7 @@ public class JSONUtilTest {
 		Assert.assertEquals(6, newArray.size());
 		System.out.println(newArray);
 		
-		
+		newArray = JSONUtil.insert(7, new JsonPrimitive("How are you JsonArray?"), newArray);
 	}
 
 }

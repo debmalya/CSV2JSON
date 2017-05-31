@@ -77,6 +77,9 @@ public class JSONUtil {
 	 * @return modified JsonArray with new entry.
 	 */
 	public static JsonArray insert(int index, JsonElement val, JsonArray currentArray) {
+		if (index > currentArray.size()) {
+			currentArray.add(val);
+		}
 	    JsonArray newArray = new JsonArray();
 	    for (int i = 0; i < index; i++) {
 	        newArray.add(currentArray.get(i));
