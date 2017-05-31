@@ -16,6 +16,7 @@
 package util;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 /**
@@ -24,10 +25,28 @@ import com.google.gson.JsonPrimitive;
  */
 public class JSONUtil {
 
+	public static void main(String[] args) {
+		JsonArray myArray = new JsonArray();
+		myArray.add(new JsonPrimitive(0));
+		System.out.println(myArray);
+		myArray.add(new JsonPrimitive(1));
+		System.out.println(myArray);
+		myArray.add(new JsonPrimitive(2));
+		System.out.println(myArray);
+
+		JsonArray newArray = new JsonArray();
+		newArray.add(new JsonPrimitive(3));
+		for (int i = 0; i < myArray.size(); i++) {
+			newArray.add(myArray.get(i));
+		}
+		System.out.println(newArray);
+	}
+
 	/**
 	 * 
-	 * @param arr java.lang.String[] . 
-	 * @return 
+	 * @param arr
+	 *            java.lang.String[] .
+	 * @return
 	 */
 	public JsonArray convert(final String[] arr) {
 		JsonArray jsonArr = new JsonArray();
@@ -38,8 +57,8 @@ public class JSONUtil {
 		}
 		return jsonArr;
 	}
-	
-	public boolean exists(final String value,JsonArray jsonArray) {
+
+	public boolean exists(final String value, JsonArray jsonArray) {
 		for (int i = 0; i < jsonArray.size(); i++) {
 			if (jsonArray.get(i).getAsString().equals(value)) {
 				return true;
@@ -47,4 +66,27 @@ public class JSONUtil {
 		}
 		return false;
 	}
+	
+	
+	
+	/**
+	 * Add an element at specific index of a JsonArray.
+	 * @param index - where the element will be added.
+	 * @param val - value to be added.
+	 * @param currentArray - existing array where it will be added.
+	 * @return modified JsonArray with new entry.
+	 */
+	public static JsonArray insert(int index, JsonElement val, JsonArray currentArray) {
+	    JsonArray newArray = new JsonArray();
+	    for (int i = 0; i < index; i++) {
+	        newArray.add(currentArray.get(i));
+	    }
+	    newArray.add(val);
+
+	    for (int i = index; i < currentArray.size(); i++) {
+	        newArray.add(currentArray.get(i));
+	    }
+	    return newArray;
+	}
+
 }

@@ -22,6 +22,8 @@ import org.junit.Test;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 
 
@@ -44,11 +46,35 @@ public class JSONUtilTest {
 		Assert.assertEquals(4, jsonArr.size());
 		Assert.assertEquals("MO",jsonArr.get(0).getAsString());
 		JsonArray myArr = ( ( JsonElement ) jsonArr ).getAsJsonArray();
-		System.out.println(myArr);
 		
 		Assert.assertTrue(util.exists("MO",myArr));
 		Assert.assertFalse(util.exists("MO1",myArr));
 
+	}
+	
+	@Test
+	public void testInsert() {
+		
+		JsonArray oldArray = new JsonArray();
+		oldArray.add(true);
+		oldArray.add('A');
+		oldArray.add(123);
+		
+		JsonObject arrayElement = new JsonObject();
+		arrayElement.add("Comment", new JsonPrimitive ("Playing with JsonArray"));
+		oldArray.add(arrayElement);
+		Assert.assertEquals(4, oldArray.size());
+		
+		
+		JsonArray newArray = JSONUtil.insert(0, new JsonPrimitive(0), oldArray);
+		Assert.assertEquals(5, newArray.size());
+		Assert.assertEquals(0, newArray.get(0).getAsInt());
+		
+		newArray = JSONUtil.insert(1, arrayElement, newArray);
+		Assert.assertEquals(6, newArray.size());
+		System.out.println(newArray);
+		
+		
 	}
 
 }
