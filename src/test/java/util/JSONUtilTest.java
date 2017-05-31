@@ -72,9 +72,10 @@ public class JSONUtilTest {
 		
 		newArray = JSONUtil.insert(1, arrayElement, newArray);
 		Assert.assertEquals(6, newArray.size());
-		System.out.println(newArray);
+		
 		
 		newArray = JSONUtil.insert(7, new JsonPrimitive("How are you JsonArray?"), newArray);
+		System.out.println(newArray);
 	}
 
 }
