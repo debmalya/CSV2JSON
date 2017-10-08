@@ -77,5 +77,11 @@ public class JSONUtilTest {
 		newArray = JSONUtil.insert(7, new JsonPrimitive("How are you JsonArray?"), newArray);
 		System.out.println(newArray);
 	}
+	
+	@Test
+	public void testArraySum() {
+		String jsonString = "{1,{1,2},{3,{4,5}},6}";
+		Assert.assertEquals( 22,JSONUtil.getArraySum( jsonString ));
+	}
 
 }
